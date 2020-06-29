@@ -499,7 +499,7 @@
             var change = function (rowNum, colNum) {
                 if (counter < 0) {
                     $("#mask").hide();
-                    clearInterval(t);
+                    // clearInterval(t);
                 }
                 else {
                     var ran = Math.floor(Math.random() * colNum);
@@ -513,7 +513,7 @@
                     hlSequence++;
                     myViewModel.grid()[counter + 1].tds[ranNum[counter + 1]](100 + hlSequence);
                 }
-
+                // console.log(counter);
                 counter--;
             };
             var addData = function (rowNum, colNum) {
@@ -558,7 +558,18 @@
                     counter = ko.unwrap(myViewModel.cRowNumber() - 1);
 
                     $("#mask").show();
-                    t = setInterval(function () { change(myViewModel.cRowNumber(), myViewModel.cColNumber()); }, myViewModel.cDurationTime());
+                    // t = setInterval(function () { change(myViewModel.cRowNumber(), myViewModel.cColNumber()); }, myViewModel.cDurationTime());
+                    // document.querySelectorAll('.page-num-div').forEach((pb, index) => {
+                    //     setTimeout(() => {
+                    //         pb.click()
+                    //         console.log([...document.querySelectorAll('.pro-list .pro-name a')].map(item => item.innerHTML))
+                    //     }, index*1000)
+                    // });
+                    for (let index = 0; index < counter + 2; index++) {
+                        setTimeout(() => {
+                            change(myViewModel.cRowNumber(), myViewModel.cColNumber());
+                        }, index * myViewModel.cDurationTime());
+                    }
                 },
                 getRanNum: function () {
                     return ranNum;
@@ -734,6 +745,14 @@
             }
         })();
 
+        function fromZy() {
+            document.querySelectorAll('.page-num-div').forEach((pb, index) => {
+                setTimeout(() => {
+                    pb.click()
+                    console.log([...document.querySelectorAll('.pro-list .pro-name a')].map(item => item.innerHTML))
+                }, index*1000)
+            })
+        }
 
 
 
