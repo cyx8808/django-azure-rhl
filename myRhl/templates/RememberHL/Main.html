@@ -219,63 +219,43 @@
 
     </div>
     <div id="sound" style="display:none">
-        <audio controls="controls" id="c101">
-            <source src="/Sound/c1.mp3" type="audio/mpeg" />
+        <audio controls="controls" id="c101" src="/Sound/c1.mp3" preload="auto" type="audio/mpeg" >
         </audio>
-        <audio controls="controls" id="c102">
-            <source src="/Sound/c2.mp3" type="audio/mpeg" />
+        <audio controls="controls" id="c102" src="/Sound/c2.mp3" preload="auto" type="audio/mpeg" >
         </audio>
-        <audio controls="controls" id="c103">
-            <source src="/Sound/c3.mp3" type="audio/mpeg" />
+        <audio controls="controls" id="c103" src="/Sound/c3.mp3" preload="auto" type="audio/mpeg">
         </audio>
-        <audio controls="controls" id="c104">
-            <source src="/Sound/c4.mp3" type="audio/mpeg" />
+        <audio controls="controls" id="c104" src="/Sound/c4.mp3" type="audio/mpeg" preload="auto">
         </audio>
-        <audio controls="controls" id="c105">
-            <source src="/Sound/c5.mp3" type="audio/mpeg" />
+        <audio controls="controls" id="c105" src="/Sound/c5.mp3" type="audio/mpeg" preload="auto">
         </audio>
-        <audio controls="controls" id="c106">
-            <source src="/Sound/c6.mp3" type="audio/mpeg" />
+        <audio controls="controls" id="c106" src="/Sound/c6.mp3" type="audio/mpeg" preload="auto">
         </audio>
-        <audio controls="controls" id="c107">
-            <source src="/Sound/c7.mp3" type="audio/mpeg" />
+        <audio controls="controls" id="c107" src="/Sound/c7.mp3" type="audio/mpeg" preload="auto">
         </audio>
-        <audio controls="controls" id="c108">
-            <source src="/Sound/c8.mp3" type="audio/mpeg" />
+        <audio controls="controls" id="c108" src="/Sound/c8.mp3" type="audio/mpeg" preload="auto">
         </audio>
-        <audio controls="controls" id="c109">
-            <source src="/Sound/c9.mp3" type="audio/mpeg" />
+        <audio controls="controls" id="c109" src="/Sound/c9.mp3" type="audio/mpeg" preload="auto">
         </audio>
-        <audio controls="controls" id="c110">
-            <source src="/Sound/c10.mp3" type="audio/mpeg" />
+        <audio controls="controls" id="c110" src="/Sound/c10.mp3" type="audio/mpeg" preload="auto">
         </audio>
-        <audio controls="controls" id="c111">
-            <source src="/Sound/c11.mp3" type="audio/mpeg" />
+        <audio controls="controls" id="c111" src="/Sound/c11.mp3" type="audio/mpeg" preload="auto">
         </audio>
-        <audio controls="controls" id="c112">
-            <source src="/Sound/c12.mp3" type="audio/mpeg" />
+        <audio controls="controls" id="c112" src="/Sound/c12.mp3" type="audio/mpeg" preload="auto">
         </audio>
-        <audio controls="controls" id="c113">
-            <source src="/Sound/c13.mp3" type="audio/mpeg" />
+        <audio controls="controls" id="c113" src="/Sound/c13.mp3" type="audio/mpeg"  preload="auto">
         </audio>
-        <audio controls="controls" id="c114">
-            <source src="/Sound/c14.mp3" type="audio/mpeg" />
+        <audio controls="controls" id="c114" src="/Sound/c14.mp3" type="audio/mpeg" preload="auto">
         </audio>
-        <audio controls="controls" id="c115">
-            <source src="/Sound/c15.mp3" type="audio/mpeg" />
+        <audio controls="controls" id="c115" src="/Sound/c15.mp3" type="audio/mpeg" preload="auto">
         </audio>
-        <audio>
-        <audio controls="controls" id="w1">
-            <source src="/Sound/good.mp3" type="audio/mpeg" />
+        <audio controls="controls" id="w1" src="/Sound/good.mp3" type="audio/mpeg" preload="auto">
         </audio>
-        <audio controls="controls" id="w0">
-            <source src="/Sound/cool.mp3" type="audio/mpeg" />
+        <audio controls="controls" id="w0" src="/Sound/cool.mp3" type="audio/mpeg" preload="auto">
         </audio>
-        <audio controls="controls" id="w2">
-            <source src="/Sound/nice.mp3" type="audio/mpeg" />
+        <audio controls="controls" id="w2" src="/Sound/nice.mp3" type="audio/mpeg" preload="auto">
         </audio>
-        <audio controls="controls" id="w3">
-            <source src="/Sound/oyeah.mp3" type="audio/mpeg" />
+        <audio controls="controls" id="w3" src="/Sound/oyeah.mp3" type="audio/mpeg" preload="auto">
         </audio>
     </div>
 
@@ -529,7 +509,7 @@
             return {
                 init: function () {
                     myViewModel.cLevel(0);
-                    myViewModel.cDurationTime(1000);
+                    myViewModel.cDurationTime(300);
                     myViewModel.cColNumber(2);
                     myViewModel.cRowNumber(3);
 
