@@ -1,0 +1,702 @@
+﻿<html lang="zh-CN">
+<head>
+    <title></title>
+
+    <!-- Mobile Devices Support @begin -->
+    <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <meta name="Keywords" content="" />
+    <meta name="Description" content="" />
+    <meta content="application/xhtml+xml;charset=UTF-8" http-equiv="Content-Type">
+    <meta content="no-cache,must-revalidate" http-equiv="Cache-Control">
+    <meta content="no-cache" http-equiv="pragma">
+    <meta content="0" http-equiv="expires">
+    <meta content="telephone=no, address=no" name="format-detection">
+    <meta name="apple-mobile-web-app-capable" content="yes" /> <!-- apple devices fullscreen -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <!-- Mobile Devices Support @end -->
+
+    <link href="/Css/ui-dialog.css" rel="stylesheet" />
+
+   
+    <script src="/Scripts/knockout-3.2.0.js"></script>
+    <script src="/Scripts/jquery-1.7.1.min.js"></script>
+    <script src="/Scripts/size-util.js"></script>
+    <script src="/Scripts/eventUtil.js"></script>
+    <script src="/Scripts/colors.js"></script>
+    <script src="/Scripts/dialog-min.js"></script>
+    <script src="/Scripts/prompt.js"></script>
+    <style>
+        html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, button, textarea, p, blockquote, th, td {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            background-color: #444444;
+        }
+
+        .tableclass {
+            width: 100%;
+        }
+
+        .tdclass {
+            border-radius: 5px;
+        }
+  
+        .opa {
+            opacity: 0.5;
+            filter: alpha(opacity=50);
+        }
+
+
+        #topbar {
+            height:30px;
+            width:100%;
+            line-height:30px;
+            color:white;
+            font-family:Arial;
+        }
+        #mode {
+            height:30px;
+            width:100%;
+            line-height:30px;
+            font-size:16px;
+            text-align:center;
+            position:fixed;
+            top:0px;
+            color:white;
+        }
+            #mode span {
+                border:1px solid white;
+                border-radius: 3px;
+                padding:2px 18px;
+            }
+        #level {
+            margin-left:2px;
+        }
+
+        #best {
+            float:right;
+            margin-right:2px;
+        }
+
+        #mask{width:100%;height:100%;overflow:hidden;position:fixed;top:0;left:0;z-index:99;display:none;}
+
+        #cover {
+            width:100%;
+            height:100%;
+            /* background-image:url(images/1bg.jpg); */
+            background-size:cover;
+            padding:20px;
+            overflow:hidden;
+            position:fixed;
+        }
+
+        ul {
+            color:#CCFFFF;
+            list-style:none;
+        }
+            ul li {
+                margin-bottom:10px;
+            }
+            ul li div{
+                border:2px solid #CCFFFF;
+                padding:6px;
+                border-radius: 5px;
+                text-align:center;
+                width:90px;
+                font-family:Arial;
+                font-weight:900;
+            }
+
+        /*.hl {
+            background-color: green;
+        }
+
+        .nhl{background-color:black;}*/
+    </style>
+</head>
+<body>
+    <div id="cover" data-bind="slideVisible:cMode">
+        <ul>
+            <li><div data-bind="click: function(){ cMode(1); }">普通de</div></li>
+            <li><div data-bind="click: function(){ cMode(2); }">加速de</div></li>
+            <li><div data-bind="click: function(){ cMode(3); }">增高de</div></li>
+        </ul>
+    </div>
+    <div data-bind="visible:!cMode==0">
+        <div id="topbar">
+            <span id="level">Level:<span data-bind="text:cLevel"></span></span>
+            <span id="best">Best:<span data-bind="text:bestScore"></span></span>
+        </div>
+        <div id="mode">
+            <span data-bind="visible:cMode()==1,click: function(){ cMode(0);$('#mask').hide();}">
+                普通de
+            </span>
+            <span data-bind="visible:cMode()==2,click: function(){ cMode(0);$('#mask').hide();}">
+                加速de
+            </span>
+            <span data-bind="visible:cMode()==3,click: function(){ cMode(0);$('#mask').hide();}">
+                增高de
+            </span>
+        </div>
+        <table class="tableclass" data-bind="foreach:grid">
+            <tr data-bind="foreach: tds ">
+                <!-- ko if: myViewModel.cMode()==1||myViewModel.cMode()==2 -->
+                <td class="tdclass opa" data-bind="css:{nhl:$data<99||$data>100,hl:$data=='a'},event:{touchstart:myViewModel.modeOneTwoHandler}">
+                    <!--<span data-bind="text:$data"></span>-->
+                    &nbsp;
+                </td>
+                <!-- /ko -->
+                <!-- ko if: myViewModel.cMode()==3 -->
+                <td class="tdclass opa" style="pointer-events:none;">
+                    <!--<span data-bind="text:$data"></span>-->
+                    <!--&nbsp;-->
+                    <div class="identi tdclass" data-bind="css:{nhl:$data<99||$data>100,hl:$data=='a'},attr:{cus:$data},event:{touchstart:myViewModel.modeThreeHandler}"
+                         style="position:relative;width:100%;height:100%;pointer-events:auto;">
+                        <!--<span data-bind="text:$data"></span>-->
+                    </div>
+                </td>
+                <!-- /ko -->
+            </tr>
+        </table>
+    </div>
+    <div id="mask">
+
+    </div>
+    <div id="sound" style="display:none">
+        <audio controls="controls" id="c101">
+            <source src="/Sound/c1.mp3" type="audio/mpeg" />
+        </audio>
+        <audio controls="controls" id="c102">
+            <source src="/Sound/c2.mp3" type="audio/mpeg" />
+        </audio>
+        <audio controls="controls" id="c103">
+            <source src="/Sound/c3.mp3" type="audio/mpeg" />
+        </audio>
+        <audio controls="controls" id="c104">
+            <source src="/Sound/c4.mp3" type="audio/mpeg" />
+        </audio>
+        <audio controls="controls" id="c105">
+            <source src="/Sound/c5.mp3" type="audio/mpeg" />
+        </audio>
+        <audio controls="controls" id="c106">
+            <source src="/Sound/c6.mp3" type="audio/mpeg" />
+        </audio>
+        <audio controls="controls" id="c107">
+            <source src="/Sound/c7.mp3" type="audio/mpeg" />
+        </audio>
+        <audio controls="controls" id="c108">
+            <source src="/Sound/c8.mp3" type="audio/mpeg" />
+        </audio>
+        <audio controls="controls" id="c109">
+            <source src="/Sound/c9.mp3" type="audio/mpeg" />
+        </audio>
+        <audio controls="controls" id="c110">
+            <source src="/Sound/c10.mp3" type="audio/mpeg" />
+        </audio>
+        <audio controls="controls" id="c111">
+            <source src="/Sound/c11.mp3" type="audio/mpeg" />
+        </audio>
+        <audio controls="controls" id="c112">
+            <source src="/Sound/c12.mp3" type="audio/mpeg" />
+        </audio>
+        <audio controls="controls" id="c113">
+            <source src="/Sound/c13.mp3" type="audio/mpeg" />
+        </audio>
+        <audio controls="controls" id="c114">
+            <source src="/Sound/c14.mp3" type="audio/mpeg" />
+        </audio>
+        <audio controls="controls" id="c115">
+            <source src="/Sound/c15.mp3" type="audio/mpeg" />
+        </audio>
+        <audio>
+        <audio controls="controls" id="w1">
+            <source src="/Sound/good.mp3" type="audio/mpeg" />
+        </audio>
+        <audio controls="controls" id="w0">
+            <source src="/Sound/cool.mp3" type="audio/mpeg" />
+        </audio>
+        <audio controls="controls" id="w2">
+            <source src="/Sound/nice.mp3" type="audio/mpeg" />
+        </audio>
+        <audio controls="controls" id="w3">
+            <source src="/Sound/oyeah.mp3" type="audio/mpeg" />
+        </audio>
+    </div>
+
+    <script>
+        "use strict";
+        //alert(su.viewportHeight() + "   " + su.viewportWidth());
+        //function addCSSRule(sheet, selector, rules, index) {
+        //    if (sheet.insertRule) {
+        //        sheet.insertRule(selector + "{" + rules + "}", index);
+        //    }
+        //    else {
+        //        sheet.addRule(selector, rules, index);
+        //    }
+        //}
+
+        //function changeColor() {
+        //    var hlColor = colors[Math.floor(Math.random() * colors.length)];
+        //    addCSSRule(document.styleSheets[1], ".hl", "background-color:" + hlColor);
+
+        //    var nhlColor = Math.random() > 0.5 ? "#111111" : "#fffffc";
+        //    addCSSRule(document.styleSheets[0], ".nhl", "background-color:" + nhlColor);
+        //}
+
+        var gamer;
+
+        function viewModel() {
+            var self = this;
+
+            self.cLevel = ko.observable(0);
+            self.cMode = ko.observable(0);
+            self.cDurationTime = ko.observable(0);
+            self.cRowNumber = ko.observable(0);
+            self.cColNumber = ko.observable(0);
+
+            self.bestScore = ko.observable(11);
+
+            self.tapNum = 0;
+
+            self.cMode.subscribe(function (newValue) {
+
+                //最高分数
+                if (window.localStorage.getItem(newValue + "bs")) {
+                    myViewModel.bestScore(window.localStorage.getItem(newValue + "bs"));
+                }
+                else {
+                    myViewModel.bestScore(1);
+                }
+
+
+                //选择完模式
+                if (newValue!=0) {
+                    updateGamer();
+
+                    gamer.init();
+                    gamer.gotoNextLevel();
+                }
+
+
+            });
+
+            self.grid = ko.observableArray([
+                { tds: [] }
+            ]);
+
+            self.modeOneTwoHandler = function (data, event) {
+                var target = event.target;
+                self.tapNum++;
+                if (data == 100 + self.tapNum) {
+                    target.classList.remove("nhl");
+                    target.classList.add("hl");
+                    if (self.tapNum == gamer.getHLSequence()) {
+                        setTimeout(function () { winThisLevel(); }, 500);
+                    }
+                }
+                else {
+                    loseThisLevel();
+                }
+            };
+
+            self.modeThreeHandler = function (data,event) {
+                var target = event.target;
+                self.tapNum++;
+                if (data == 100 + self.tapNum) {
+                    target.classList.remove("nhl");
+                    target.classList.add("hl");
+                    if (self.tapNum == gamer.getHLSequence()) {
+                        setTimeout(function () { winThisLevel(); }, 500);
+                    }
+                }
+                else {
+                    loseThisLevel();
+                }
+            };
+
+            //self.tdTapEventHandler = function (element, data) {
+
+            //    if (self.cMode() == 1 || self.cMode() == 2) {
+            //        var obj = $(element).filter("td")[0];
+            //        eventUtil.addHandler(obj, "touchstart", function () {
+            //            self.tapNum++;
+            //            if (data() == 100 + self.tapNum) {
+            //                obj.classList.remove("nhl");
+            //                obj.classList.add("hl");
+            //                if (self.tapNum == gamer.getHLSequence()) {
+            //                    setTimeout(function () { winThisLevel(); }, 500);
+            //                }
+            //            }
+            //            else {
+            //                loseThisLevel();
+            //            }
+            //        });
+            //    }
+            //    else if (self.cMode() == 3) {
+                    //var obj = $(element).filter("td")[0].children[0];
+                    //eventUtil.addHandler(obj, "touchstart", function () {
+                    //    self.tapNum++;
+                    //    if (data() == 100 + self.tapNum) {
+                    //        obj.classList.remove("nhl");
+                    //        obj.classList.add("hl");
+                    //        if (self.tapNum == gamer.getHLSequence()) {
+                    //            setTimeout(function () { winThisLevel(); }, 500);
+                    //        }
+                    //    }
+                    //    else {
+                    //        loseThisLevel();
+                    //    }
+                    //});
+            //    }
+            //};
+
+        }
+
+
+        ko.bindingHandlers.slideVisible = {
+            init: function (element, valueAccessor) {
+                var value = valueAccessor();
+                $(element).toggle(ko.unwrap(value()) == 0);
+            },
+            update: function (element, valueAccessor) {
+                var value = valueAccessor();
+                ko.unwrap(value()) == 0 ? $(element).slideDown(200) : $(element).slideUp(200);
+            }
+        };
+
+        var myViewModel = new viewModel();
+        ko.applyBindings(myViewModel);
+
+        $(document).ready(function () {
+            //myViewModel.cMode(3);
+
+
+
+
+        });
+
+        window.onunload = function () {
+            window.localStorage.setItem(myViewModel.cMode() + "bs", myViewModel.bestScore());
+        };
+
+
+        function updateGamer() {
+            if (myViewModel.cMode()==1) {
+                gamer = ordinaryGamer;
+            }
+            else if (myViewModel.cMode()==2) {
+                gamer = speedGamer;
+            }
+            else if (myViewModel.cMode()==3) {
+                gamer = tallerGamer;
+            }
+        }
+
+
+        function winThisLevel() {
+            if (myViewModel.cLevel()>myViewModel.bestScore()) {
+                myViewModel.bestScore(myViewModel.cLevel());
+            }
+            var winNum = Math.floor(Math.random() * winPrompts.length);
+            var d = dialog({
+                content: winPrompts[winNum],
+
+                onshow: function(){
+                    $("#w" + winNum)[0].play();
+                },
+
+                onclose: function () {
+                    gamer.gotoNextLevel();
+                },
+
+                cancelValue: '下一关',
+                cancel: function () {
+
+                }
+            });
+            d.showModal();
+        }
+
+        function loseThisLevel() {
+            var d = dialog({
+                content: losePrompts[Math.floor(Math.random() * losePrompts.length)],
+
+                onclose: function () {
+                    gamer.init();
+                    gamer.gotoNextLevel();
+                },
+
+                cancelValue: '重来',
+                cancel: function () {
+
+                }
+            });
+            d.showModal();
+        }
+
+
+        var ordinaryGamer = (function () {
+            var t;
+            var counter;
+            var hlSequence;
+            var ranNum;
+            var change = function (rowNum, colNum) {
+                if (counter < 0) {
+                    $("#mask").hide();
+                    clearInterval(t);
+                }
+                else {
+                    var ran = Math.floor(Math.random() * colNum);
+                    myViewModel.grid()[counter].tds[ran]('a');
+                    ranNum[counter] = ran;
+                    var cNum = rowNum - counter + 100;
+                    $("#c" + cNum)[0].play();
+                }
+
+                if (counter < rowNum - 1) {
+                    hlSequence++;
+                    myViewModel.grid()[counter + 1].tds[ranNum[counter + 1]](100 + hlSequence);
+                }
+
+                counter--;
+            };
+            var addData = function (rowNum, colNum) {
+                myViewModel.grid.removeAll();
+                for (var i = 0; i < rowNum; i++) {
+                    var tds = ko.observableArray();
+                    for (var j = 0; j < colNum; j++) {
+                        tds.push(ko.observable(0));
+                    }
+                    myViewModel.grid.push({ tds: tds() });
+                }
+            }
+            return {
+                init: function () {
+                    myViewModel.cLevel(0);
+                    myViewModel.cDurationTime(300);
+                    myViewModel.cColNumber(2);
+                    myViewModel.cRowNumber(3);
+
+                    addColorClass();
+                },
+                gotoNextLevel: function () {
+                    myViewModel.cLevel(myViewModel.cLevel() + 1);
+                    if (myViewModel.cRowNumber() > myViewModel.cColNumber()) {
+                        myViewModel.cColNumber(myViewModel.cColNumber() + 1);
+                    }
+                    else {
+                        myViewModel.cRowNumber(myViewModel.cRowNumber() + 1);
+                    }
+                    addData(myViewModel.cRowNumber(), myViewModel.cColNumber());
+
+                    $("tr").css("height", (su.viewportHeight() - 33) / myViewModel.cRowNumber() - 2 + "px");
+                    //changeColor();
+
+                    setTimeout(function () { gamer.beginThisLevel(); }, 500);
+                },
+                beginThisLevel: function () {
+                    myViewModel.tapNum = 0;
+
+                    hlSequence = 0;
+                    ranNum = new Array();
+                    counter = ko.unwrap(myViewModel.cRowNumber() - 1);
+
+                    $("#mask").show();
+                    t = setInterval(function () { change(myViewModel.cRowNumber(), myViewModel.cColNumber()); }, myViewModel.cDurationTime());
+                },
+                getRanNum: function () {
+                    return ranNum;
+                },
+                getHLSequence: function () {
+                    return hlSequence;
+                }
+            }
+        })();
+
+
+        var speedGamer = (function () {
+            var t;
+            var counter;
+            var hlSequence;
+            var ranNum;
+            var change = function (rowNum, colNum) {
+                if (counter < 0) {
+                    $("#mask").hide();
+                    clearInterval(t);
+                }
+                else {
+                    var ran = Math.floor(Math.random() * colNum);
+                    myViewModel.grid()[counter].tds[ran]('a');
+                    ranNum[counter] = ran;
+
+                    var cNum = rowNum - counter + 100;
+                    $("#c" + cNum)[0].play();
+                }
+
+                if (counter < rowNum - 1) {
+                    hlSequence++;
+                    myViewModel.grid()[counter + 1].tds[ranNum[counter + 1]](100 + hlSequence);
+                }
+
+                counter--;
+            };
+            var addData = function (rowNum, colNum) {
+                myViewModel.grid.removeAll();
+                for (var i = 0; i < rowNum; i++) {
+                    var tds = ko.observableArray();
+                    for (var j = 0; j < colNum; j++) {
+                        tds.push(ko.observable(0));
+                    }
+                    myViewModel.grid.push({ tds: tds() });
+                }
+            }
+            return {
+                init: function () {
+                    myViewModel.cLevel(0);
+                    myViewModel.cDurationTime(300);
+                    myViewModel.cColNumber(4);
+                    myViewModel.cRowNumber(4);
+
+                    addColorClass();
+                },
+                gotoNextLevel: function () {
+                    myViewModel.cLevel(myViewModel.cLevel() + 1);
+                    addData(myViewModel.cRowNumber(), myViewModel.cColNumber());
+
+                    $("tr").css("height", (su.viewportHeight() - 33) / myViewModel.cRowNumber() - 2 + "px");
+
+                    //changeColor();
+                    myViewModel.cDurationTime(Math.floor(myViewModel.cDurationTime() * 0.8));
+
+                    setTimeout(function () { gamer.beginThisLevel(); }, 500);
+                },
+                beginThisLevel: function () {
+                    myViewModel.tapNum = 0;
+
+                    hlSequence = 0;
+                    ranNum = new Array();
+                    counter = ko.unwrap(myViewModel.cRowNumber() - 1);
+
+                    $("#mask").show();
+                    t = setInterval(function () { change(myViewModel.cRowNumber(), myViewModel.cColNumber()); }, myViewModel.cDurationTime());
+                },
+                getRanNum: function () {
+                    return ranNum;
+                },
+                getHLSequence: function () {
+                    return hlSequence;
+                }
+            }
+        })();
+
+        var tallerGamer = (function () {
+            var t;
+            var counter;
+            var hlSequence;
+            var ranNum;
+            var change = function (rowNum) {
+                
+
+                if (counter < 0) {
+                    $("#mask").hide();
+                    clearInterval(t);
+                }
+                else {
+                    var ran = Math.floor(Math.random() * (rowNum-counter));
+                    myViewModel.grid()[counter].tds[ran]('a');
+                    ranNum[counter] = ran;
+
+                    var cNum = rowNum - counter + 100;
+                    $("#c" + cNum)[0].play();
+                }
+
+                if (counter < rowNum - 1) {
+                    hlSequence++;
+                    myViewModel.grid()[counter + 1].tds[ranNum[counter + 1]](100 + hlSequence);
+                }
+
+                counter--;
+            };
+            var addData = function (rowNum) {
+                myViewModel.grid.removeAll();
+                for (var i = rowNum; i >0; i--) {
+                    var tds = ko.observableArray();
+                    for (var j = 0; j < i; j++) {
+                        tds.push(ko.observable(i));
+                    }
+                    myViewModel.grid.push({ tds: tds() });
+                }
+            }
+            return {
+                init: function () {
+                    myViewModel.cLevel(0);
+                    myViewModel.cDurationTime(300);
+                    //myViewModel.cColNumber(2);
+                    myViewModel.cRowNumber(3);
+
+                    addColorClass();
+                },
+                gotoNextLevel: function () {
+                    myViewModel.cLevel(myViewModel.cLevel() + 1);
+                    myViewModel.cRowNumber(myViewModel.cRowNumber() + 1);
+
+                    addData(myViewModel.cRowNumber(), myViewModel.cColNumber());
+
+                    //var tds = document.getElementsByTagName("td");
+                    var rowNum = ko.unwrap(myViewModel.cRowNumber());
+                    var divs = document.getElementsByClassName("identi");
+                    var divNum = divs.length;
+                    var singledivwidth = su.viewportWidth() / rowNum;
+                    var index = 1;
+                    for (var i = 0; i < divNum; i++) {
+                        var cus = parseInt(divs[i].attributes.cus.value);
+                        divs[i].style.left = (su.viewportWidth() - singledivwidth* cus) / 2 + "px";
+                    }
+
+                    $("tr").css("height", (su.viewportHeight() - 33) / myViewModel.cRowNumber() - 2 + "px");
+                    $(".identi").css("height", (su.viewportHeight() - 33) / myViewModel.cRowNumber() - 2 + "px");
+                    //changeColor();
+
+                    setTimeout(function () { gamer.beginThisLevel(); }, 500);
+                },
+                beginThisLevel: function () {
+                    myViewModel.tapNum = 0;
+
+                    hlSequence = 0;
+                    ranNum = new Array();
+                    counter = ko.unwrap(myViewModel.cRowNumber() - 1);
+
+                    $("#mask").show();
+                    t = setInterval(function () { change(myViewModel.cRowNumber(), myViewModel.cColNumber()); }, myViewModel.cDurationTime());
+                },
+                getRanNum: function () {
+                    return ranNum;
+                },
+                getHLSequence: function () {
+                    return hlSequence;
+                }
+            }
+        })();
+
+
+
+
+        function addColorClass() {
+            var hlColor = colors[Math.floor(Math.random() * colors.length)];
+            $("table").before("<style>.hl{background-color:" + hlColor + "}</style>");
+
+            var nhlColor = Math.random() > 0.5 ? "#111111" : "#FFFFFF";
+            $("table").before("<style>.nhl{background-color:" + nhlColor + "}</style>");
+        }
+
+
+    </script>
+
+</body>
+</html>

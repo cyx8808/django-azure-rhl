@@ -1,0 +1,6 @@
+D:\xuexihtml5youxi\RememberHL\RememberHL\bin\RememberHL.dll.config
+D:\xuexihtml5youxi\RememberHL\RememberHL\bin\RememberHL.dll
+D:\xuexihtml5youxi\RememberHL\RememberHL\bin\RememberHL.pdb
+D:\xuexihtml5youxi\RememberHL\RememberHL\obj\Debug\RememberHL.csprojResolveAssemblyReference.cache
+D:\xuexihtml5youxi\RememberHL\RememberHL\obj\Debug\RememberHL.dll
+D:\xuexihtml5youxi\RememberHL\RememberHL\obj\Debug\RememberHL.pdb
