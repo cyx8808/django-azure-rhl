@@ -92,8 +92,10 @@
             /* background-image:url(images/1bg.jpg); */
             background-size:cover;
             padding:20px;
+            padding-top: 100px;
             overflow:hidden;
             position:fixed;
+            top: 0px;
         }
 
         ul {
@@ -113,6 +115,50 @@
                 font-weight:900;
             }
 
+        #title {
+            color: #e0e0e0;
+            font-size: xx-large;
+        }
+
+        #buttons {
+            margin-top: 66px;
+            margin-left: 22px;
+        }
+
+
+        #coolcircle {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            box-shadow:
+                0 0 10px #fff,
+                -10px 0 40px #f0f,
+                10px 0 40px #0ff,
+                inset 0 0 20px #fff,
+                inset 20px 0 40px #f0f,
+                inset -20px 0 40px #0ff,
+                inset 20px 0 100px #f0f,
+                inset -20px 0 100px #0ff;
+            animation: pulsate 6s linear infinite;
+            position: fixed;
+            right: 52px;
+            bottom: 100px;
+        }
+
+        @keyframes pulsate {
+        50% {
+            box-shadow:
+            0 0 10px #fff,
+            10px 0 40px #f0f,
+            -10px 0 40px #0ff,
+            inset 0 0 20px #fff,
+            inset -20px 0 40px #f0f,
+            inset 20px 0 40px #0ff,
+            inset -20px 0 100px #f0f,
+            inset 20px 0 100px #0ff;
+        }
+        }
+
         /*.hl {
             background-color: green;
         }
@@ -122,11 +168,15 @@
 </head>
 <body>
     <div id="cover" data-bind="slideVisible:cMode">
-        <ul>
-            <li><div data-bind="click: function(){ cMode(1); }">普通de</div></li>
-            <li><div data-bind="click: function(){ cMode(2); }">加速de</div></li>
-            <li><div data-bind="click: function(){ cMode(3); }">增高de</div></li>
+        <div id="title">
+            <span>Follow the sequence</span>
+        </div>
+        <ul id = "buttons">
+            <li><div data-bind="click: function(){ cMode(1); }">普通</div></li>
+            <li><div data-bind="click: function(){ cMode(2); }">加速</div></li>
+            <li><div data-bind="click: function(){ cMode(3); }">增高</div></li>
         </ul>
+        <div id="coolcircle"></div>
     </div>
     <div data-bind="visible:!cMode==0">
         <div id="topbar">
