@@ -19,7 +19,7 @@ from django.conf.urls import url
 from django.views.static import serve
 
 urlpatterns = [
-    path('myRhl/', include('myRhl.urls')),
+    path('', include('myRhl.urls')),
     url(r'^(?P<path>.*)$', serve, {'document_root': 'myRhl/static'}),
     url(r'^admin/', admin.site.urls),
 ]
