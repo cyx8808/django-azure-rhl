@@ -326,6 +326,7 @@
                 if (data == 100 + self.tapNum) {
                     target.classList.remove("nhl");
                     target.classList.add("hl");
+                    $("#c" + data)[0].play();
                     if (self.tapNum == gamer.getHLSequence()) {
                         setTimeout(function () { winThisLevel(); }, 500);
                     }
@@ -341,6 +342,7 @@
                 if (data == 100 + self.tapNum) {
                     target.classList.remove("nhl");
                     target.classList.add("hl");
+                    $("#c" + data)[0].play();
                     if (self.tapNum == gamer.getHLSequence()) {
                         setTimeout(function () { winThisLevel(); }, 500);
                     }
@@ -485,10 +487,10 @@
                     var ran = Math.floor(Math.random() * colNum);
                     myViewModel.grid()[counter].tds[ran]('a');
                     ranNum[counter] = ran;
-                    var cNum = rowNum - counter + 100;
-                    var bbutn = $("#c" + (cNum - 1))[0];
-                    bbutn && bbutn.pause();
-                    $("#c" + cNum)[0].play();
+                    // var cNum = rowNum - counter + 100;
+                    // var bbutn = $("#c" + (cNum - 1))[0];
+                    // bbutn && bbutn.pause();
+                    // $("#c" + cNum)[0].play();
                 }
 
                 if (counter < rowNum - 1) {
@@ -577,8 +579,8 @@
                     myViewModel.grid()[counter].tds[ran]('a');
                     ranNum[counter] = ran;
 
-                    var cNum = rowNum - counter + 100;
-                    $("#c" + cNum)[0].play();
+                    // var cNum = rowNum - counter + 100;
+                    // $("#c" + cNum)[0].play();
                 }
 
                 if (counter < rowNum - 1) {
@@ -654,8 +656,8 @@
                     myViewModel.grid()[counter].tds[ran]('a');
                     ranNum[counter] = ran;
 
-                    var cNum = rowNum - counter + 100;
-                    $("#c" + cNum)[0].play();
+                    // var cNum = rowNum - counter + 100;
+                    // $("#c" + cNum)[0].play();
                 }
 
                 if (counter < rowNum - 1) {
