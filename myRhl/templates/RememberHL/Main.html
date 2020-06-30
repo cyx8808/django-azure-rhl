@@ -261,23 +261,29 @@
 
     <script>
         "use strict";
-        //alert(su.viewportHeight() + "   " + su.viewportWidth());
-        //function addCSSRule(sheet, selector, rules, index) {
-        //    if (sheet.insertRule) {
-        //        sheet.insertRule(selector + "{" + rules + "}", index);
-        //    }
-        //    else {
-        //        sheet.addRule(selector, rules, index);
-        //    }
-        //}
 
-        //function changeColor() {
-        //    var hlColor = colors[Math.floor(Math.random() * colors.length)];
-        //    addCSSRule(document.styleSheets[1], ".hl", "background-color:" + hlColor);
-
-        //    var nhlColor = Math.random() > 0.5 ? "#111111" : "#fffffc";
-        //    addCSSRule(document.styleSheets[0], ".nhl", "background-color:" + nhlColor);
-        //}
+        var sounds = {
+            'c101': $("#c101")[0],
+            'c101': $("#c101")[0],
+            'c102': $("#c102")[0],
+            'c103': $("#c103")[0],
+            'c104': $("#c104")[0],
+            'c105': $("#c105")[0],
+            'c106': $("#c106")[0],
+            'c107': $("#c107")[0],
+            'c108': $("#c108")[0],
+            'c109': $("#c109")[0],
+            'c110': $("#c110")[0],
+            'c111': $("#c111")[0],
+            'c112': $("#c112")[0],
+            'c113': $("#c113")[0],
+            'c114': $("#c114")[0],
+            'c115': $("#c115")[0],
+            'w0': $('#w0')[0],
+            'w1': $('#w1')[0],
+            'w2': $('#w2')[0],
+            'w3': $('#w3')[0]
+        }
 
         var gamer;
 
@@ -326,7 +332,8 @@
                 if (data == 100 + self.tapNum) {
                     target.classList.remove("nhl");
                     target.classList.add("hl");
-                    $("#c" + data)[0].play();
+                    // $("#c" + data)[0].play();
+                    sounds['c' + data].play();
                     if (self.tapNum == gamer.getHLSequence()) {
                         setTimeout(function () { winThisLevel(); }, 500);
                     }
@@ -342,7 +349,8 @@
                 if (data == 100 + self.tapNum) {
                     target.classList.remove("nhl");
                     target.classList.add("hl");
-                    $("#c" + data)[0].play();
+                    // $("#c" + data)[0].play();
+                    sounds['c' + data].play();
                     if (self.tapNum == gamer.getHLSequence()) {
                         setTimeout(function () { winThisLevel(); }, 500);
                     }
@@ -351,42 +359,6 @@
                     loseThisLevel();
                 }
             };
-
-            //self.tdTapEventHandler = function (element, data) {
-
-            //    if (self.cMode() == 1 || self.cMode() == 2) {
-            //        var obj = $(element).filter("td")[0];
-            //        eventUtil.addHandler(obj, "touchstart", function () {
-            //            self.tapNum++;
-            //            if (data() == 100 + self.tapNum) {
-            //                obj.classList.remove("nhl");
-            //                obj.classList.add("hl");
-            //                if (self.tapNum == gamer.getHLSequence()) {
-            //                    setTimeout(function () { winThisLevel(); }, 500);
-            //                }
-            //            }
-            //            else {
-            //                loseThisLevel();
-            //            }
-            //        });
-            //    }
-            //    else if (self.cMode() == 3) {
-                    //var obj = $(element).filter("td")[0].children[0];
-                    //eventUtil.addHandler(obj, "touchstart", function () {
-                    //    self.tapNum++;
-                    //    if (data() == 100 + self.tapNum) {
-                    //        obj.classList.remove("nhl");
-                    //        obj.classList.add("hl");
-                    //        if (self.tapNum == gamer.getHLSequence()) {
-                    //            setTimeout(function () { winThisLevel(); }, 500);
-                    //        }
-                    //    }
-                    //    else {
-                    //        loseThisLevel();
-                    //    }
-                    //});
-            //    }
-            //};
 
         }
 
@@ -440,7 +412,8 @@
                 content: winPrompts[winNum],
 
                 onshow: function(){
-                    $("#w" + winNum)[0].play();
+                    // $("#w" + winNum)[0].play();
+                    sounds['w' + winNum].play();
                 },
 
                 onclose: function () {
