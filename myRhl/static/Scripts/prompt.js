@@ -1,8 +1,8 @@
 ﻿var winPrompts = [
-    "Cool!",
-    "Good！",
-    "Nice！",
-    "Oyeah！"
+    "cool",
+    "good",
+    "nice",
+    "oyeah"
 ];
 
 var losePrompts = [
