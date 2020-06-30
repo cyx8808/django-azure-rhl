@@ -288,51 +288,6 @@
         // }
 
         jdMusic.create([{
-                src: '/Sound/c1.mp3',
-                id: 'c1'
-            }, {
-                src: '/Sound/c2.mp3',
-                id: 'c2'
-            }, {
-                src: '/Sound/c3.mp3',
-                id: 'c3'
-            }, {
-                src: '/Sound/c4.mp3',
-                id: 'c4'
-            }, {
-                src: '/Sound/c5.mp3',
-                id: 'c5'
-            }, {
-                src: '/Sound/c6.mp3',
-                id: 'c6'
-            }, {
-                src: '/Sound/c7.mp3',
-                id: 'c7'
-            }, {
-                src: '/Sound/c8.mp3',
-                id: 'c8'
-            }, {
-                src: '/Sound/c9.mp3',
-                id: 'c9'
-            }, {
-                src: '/Sound/c10.mp3',
-                id: 'c10'
-            }, {
-                src: '/Sound/c11.mp3',
-                id: 'c11'
-            }, {
-                src: '/Sound/c12.mp3',
-                id: 'c12'
-            }, {
-                src: '/Sound/c13.mp3',
-                id: 'c13'
-            }, {
-                src: '/Sound/c14.mp3',
-                id: 'c14'
-            }, {
-                src: '/Sound/c15.mp3',
-                id: 'c15'
-            }, {
                 src: '/Sound/cool.mp3',
                 id: 'w0'
             }, {
@@ -348,6 +303,46 @@
         ]);
 
         // var audio = new Audio();
+        window.AudioContext = window.AudioContext || window.webkitAudioContext;
+
+        if (!window.AudioContext) { 
+            alert('当前浏览器不支持Web Audio API');
+        }
+            
+            
+        // 创建新的音频上下文接口
+        var audioCtx = new AudioContext();
+        
+        // 发出的声音频率数据，表现为音调的高低
+        var arrFrequency = [196.00, 220.00, 246.94, 261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 493.88, 523.25, 587.33, 659.25, 698.46, 783.99, 880.00, 987.77, 1046.50];
+        
+        var playMchineSound = function(frequency){
+
+            // 创建一个OscillatorNode, 它表示一个周期性波形（振荡），基本上来说创造了一个音调
+            var oscillator = audioCtx.createOscillator();
+            // 创建一个GainNode,它可以控制音频的总音量
+            var gainNode = audioCtx.createGain();
+            // 把音量，音调和终节点进行关联
+            oscillator.connect(gainNode);
+            // audioCtx.destination返回AudioDestinationNode对象，表示当前audio context中所有节点的最终节点，一般表示音频渲染设备
+            gainNode.connect(audioCtx.destination);
+            // 指定音调的类型，其他还有square|triangle|sawtooth
+            oscillator.type = 'sine';
+            // 设置当前播放声音的频率，也就是最终播放声音的调调
+            oscillator.frequency.value = frequency;
+            // 当前时间设置音量为0
+            gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+            // 0.01秒后音量为1
+            gainNode.gain.linearRampToValueAtTime(1, audioCtx.currentTime + 0.01);
+            // 音调从当前时间开始播放
+            oscillator.start(audioCtx.currentTime);
+            // 1秒内声音慢慢降低，是个不错的停止声音的方法
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.8);
+            // 1秒后完全停止声音
+            oscillator.stop(audioCtx.currentTime + 0.8);
+
+        }
+
         var gamer;
 
         function viewModel() {
@@ -404,7 +399,8 @@
                     // var audio = new Audio("/Sound/c" + (data - 100) + ".mp3");
                     // audio.src = "/Sound/c" + (data - 100) + ".mp3";
                     // audio.play();
-                    jdMusic.play(data - 101);
+                    // jdMusic.play(data - 101);
+                    playMchineSound(arrFrequency[data - 101]);
                     if (self.tapNum == gamer.getHLSequence()) {
                         setTimeout(function () { winThisLevel(); }, 500);
                     }
@@ -425,7 +421,8 @@
                     // audio.src = "/Sound/c" + (data - 100) + ".mp3";
                     // audio.play();
                     // console.log(data);
-                    jdMusic.play(data - 101);
+                    // jdMusic.play(data - 101);
+                    playMchineSound(arrFrequency[data - 101]);
                     if (self.tapNum == gamer.getHLSequence()) {
                         setTimeout(function () { winThisLevel(); }, 500);
                     }
@@ -491,7 +488,7 @@
                     // sounds['w' + winNum].play();
                     // audio.src = "/Sound/" + winPrompts[winNum] + ".mp3";
                     // audio.play();
-                    jdMusic.play(winNum + 15);
+                    jdMusic.play(winNum);
                 },
 
                 onclose: function () {
@@ -540,10 +537,11 @@
                     var ran = Math.floor(Math.random() * colNum);
                     myViewModel.grid()[counter].tds[ran]('a');
                     ranNum[counter] = ran;
-                    // var cNum = rowNum - counter + 100;
+                    var cNum = rowNum - counter + 100;
                     // var bbutn = $("#c" + (cNum - 1))[0];
                     // bbutn && bbutn.pause();
                     // $("#c" + cNum)[0].play();
+                    playMchineSound(arrFrequency[cNum - 101]);
                 }
 
                 if (counter < rowNum - 1) {
@@ -632,8 +630,9 @@
                     myViewModel.grid()[counter].tds[ran]('a');
                     ranNum[counter] = ran;
 
-                    // var cNum = rowNum - counter + 100;
+                    var cNum = rowNum - counter + 100;
                     // $("#c" + cNum)[0].play();
+                    playMchineSound(arrFrequency[cNum - 101]);
                 }
 
                 if (counter < rowNum - 1) {
@@ -709,8 +708,9 @@
                     myViewModel.grid()[counter].tds[ran]('a');
                     ranNum[counter] = ran;
 
-                    // var cNum = rowNum - counter + 100;
+                    var cNum = rowNum - counter + 100;
                     // $("#c" + cNum)[0].play();
+                    playMchineSound(arrFrequency[cNum - 101]);
                 }
 
                 if (counter < rowNum - 1) {
