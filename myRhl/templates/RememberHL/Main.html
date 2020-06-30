@@ -25,6 +25,8 @@
     <script src="/Scripts/colors.js"></script>
     <script src="/Scripts/dialog-min.js"></script>
     <script src="/Scripts/prompt.js"></script>
+    <script src="/Scripts/audioCreate.js"></script>
+
     <style>
         html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, button, textarea, p, blockquote, th, td {
             margin: 0;
@@ -218,7 +220,7 @@
     <div id="mask">
 
     </div>
-    <div id="sound" style="display:none">
+    <!-- <div id="sound" style="display:none">
         <audio controls="controls" id="c101" src="/Sound/c1.mp3" preload="auto" type="audio/mpeg" >
         </audio>
         <audio controls="controls" id="c102" src="/Sound/c2.mp3" preload="auto" type="audio/mpeg" >
@@ -257,33 +259,93 @@
         </audio>
         <audio controls="controls" id="w3" src="/Sound/oyeah.mp3" type="audio/mpeg" preload="auto">
         </audio>
-    </div>
+    </div> -->
 
     <script>
         "use strict";
 
-        var sounds = {
-            'c101': $("#c101")[0],
-            'c101': $("#c101")[0],
-            'c102': $("#c102")[0],
-            'c103': $("#c103")[0],
-            'c104': $("#c104")[0],
-            'c105': $("#c105")[0],
-            'c106': $("#c106")[0],
-            'c107': $("#c107")[0],
-            'c108': $("#c108")[0],
-            'c109': $("#c109")[0],
-            'c110': $("#c110")[0],
-            'c111': $("#c111")[0],
-            'c112': $("#c112")[0],
-            'c113': $("#c113")[0],
-            'c114': $("#c114")[0],
-            'c115': $("#c115")[0],
-            'w0': $('#w0')[0],
-            'w1': $('#w1')[0],
-            'w2': $('#w2')[0],
-            'w3': $('#w3')[0]
-        }
+        // var sounds = {
+        //     'c101': $("#c101")[0],
+        //     'c101': $("#c101")[0],
+        //     'c102': $("#c102")[0],
+        //     'c103': $("#c103")[0],
+        //     'c104': $("#c104")[0],
+        //     'c105': $("#c105")[0],
+        //     'c106': $("#c106")[0],
+        //     'c107': $("#c107")[0],
+        //     'c108': $("#c108")[0],
+        //     'c109': $("#c109")[0],
+        //     'c110': $("#c110")[0],
+        //     'c111': $("#c111")[0],
+        //     'c112': $("#c112")[0],
+        //     'c113': $("#c113")[0],
+        //     'c114': $("#c114")[0],
+        //     'c115': $("#c115")[0],
+        //     'w0': $('#w0')[0],
+        //     'w1': $('#w1')[0],
+        //     'w2': $('#w2')[0],
+        //     'w3': $('#w3')[0]
+        // }
+
+        jdMusic.create([{
+                src: '/Sound/c1.mp3',
+                id: 'c1'
+            }, {
+                src: '/Sound/c2.mp3',
+                id: 'c2'
+            }, {
+                src: '/Sound/c3.mp3',
+                id: 'c3'
+            }, {
+                src: '/Sound/c4.mp3',
+                id: 'c4'
+            }, {
+                src: '/Sound/c5.mp3',
+                id: 'c5'
+            }, {
+                src: '/Sound/c6.mp3',
+                id: 'c6'
+            }, {
+                src: '/Sound/c7.mp3',
+                id: 'c7'
+            }, {
+                src: '/Sound/c8.mp3',
+                id: 'c8'
+            }, {
+                src: '/Sound/c9.mp3',
+                id: 'c9'
+            }, {
+                src: '/Sound/c10.mp3',
+                id: 'c10'
+            }, {
+                src: '/Sound/c11.mp3',
+                id: 'c11'
+            }, {
+                src: '/Sound/c12.mp3',
+                id: 'c12'
+            }, {
+                src: '/Sound/c13.mp3',
+                id: 'c13'
+            }, {
+                src: '/Sound/c14.mp3',
+                id: 'c14'
+            }, {
+                src: '/Sound/c15.mp3',
+                id: 'c15'
+            }, {
+                src: '/Sound/cool.mp3',
+                id: 'w0'
+            }, {
+                src: '/Sound/good.mp3',
+                id: 'w1'
+            }, {
+                src: '/Sound/nice.mp3',
+                id: 'w2'
+            }, {
+                src: '/Sound/oyeah.mp3',
+                id: 'w3'
+            }
+        ]);
 
         // var audio = new Audio();
         var gamer;
@@ -303,9 +365,9 @@
 
             self.cMode.subscribe(function (newValue) {
                 //加载声音
-                Object.keys(sounds).forEach((key, index) => {
-                    sounds[key].load();
-                });
+                // Object.keys(sounds).forEach((key, index) => {
+                //     sounds[key].load();
+                // });
 
                 //最高分数
                 if (window.localStorage.getItem(newValue + "bs")) {
@@ -338,10 +400,11 @@
                     target.classList.remove("nhl");
                     target.classList.add("hl");
                     // $("#c" + data)[0].play();
-                    sounds['c' + data].play();
+                    // sounds['c' + data].play();
                     // var audio = new Audio("/Sound/c" + (data - 100) + ".mp3");
                     // audio.src = "/Sound/c" + (data - 100) + ".mp3";
                     // audio.play();
+                    jdMusic.play(data - 101);
                     if (self.tapNum == gamer.getHLSequence()) {
                         setTimeout(function () { winThisLevel(); }, 500);
                     }
@@ -358,9 +421,11 @@
                     target.classList.remove("nhl");
                     target.classList.add("hl");
                     // $("#c" + data)[0].play();
-                    sounds['c' + data].play();
+                    // sounds['c' + data].play();
                     // audio.src = "/Sound/c" + (data - 100) + ".mp3";
                     // audio.play();
+                    // console.log(data);
+                    jdMusic.play(data - 101);
                     if (self.tapNum == gamer.getHLSequence()) {
                         setTimeout(function () { winThisLevel(); }, 500);
                     }
@@ -423,9 +488,10 @@
 
                 onshow: function(){
                     // $("#w" + winNum)[0].play();
-                    sounds['w' + winNum].play();
+                    // sounds['w' + winNum].play();
                     // audio.src = "/Sound/" + winPrompts[winNum] + ".mp3";
                     // audio.play();
+                    jdMusic.play(winNum + 15);
                 },
 
                 onclose: function () {
