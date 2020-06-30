@@ -486,6 +486,8 @@
                     myViewModel.grid()[counter].tds[ran]('a');
                     ranNum[counter] = ran;
                     var cNum = rowNum - counter + 100;
+                    var bbutn = $("#c" + (cNum - 1))[0];
+                    bbutn && bbutn.pause();
                     $("#c" + cNum)[0].play();
                 }
 
@@ -493,7 +495,6 @@
                     hlSequence++;
                     myViewModel.grid()[counter + 1].tds[ranNum[counter + 1]](100 + hlSequence);
                 }
-                // console.log(counter);
                 counter--;
             };
             var addData = function (rowNum, colNum) {
@@ -509,7 +510,7 @@
             return {
                 init: function () {
                     myViewModel.cLevel(0);
-                    myViewModel.cDurationTime(300);
+                    myViewModel.cDurationTime(500);
                     myViewModel.cColNumber(2);
                     myViewModel.cRowNumber(3);
 
